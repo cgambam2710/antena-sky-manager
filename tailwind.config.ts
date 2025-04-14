@@ -61,7 +61,25 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Colores personalizados para la aplicación de antenas
+				antenna: {
+					blue: {
+						light: '#0EA5E9', // sky-500
+						DEFAULT: '#0284C7', // sky-600
+						dark: '#0C4A6E', // sky-900
+					},
+					gray: {
+						light: '#F1F5F9', // slate-100
+						DEFAULT: '#64748B', // slate-500
+						dark: '#1E293B', // slate-800
+					},
+					accent: {
+						success: '#10B981', // emerald-500
+						warning: '#F59E0B', // amber-500
+						error: '#EF4444', // red-500
+					}
+				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

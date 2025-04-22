@@ -86,7 +86,9 @@ export function useAuth() {
     firstName: string;
     lastName: string;
   }) => {
-    if (!profile?.role === 'admin') {
+    // Here was the error: profile?.role === 'admin' is comparing a string ('admin') with profile?.role which is optional
+    // Fixed by checking if profile exists first, and then if its role is 'admin'
+    if (!profile || profile.role !== 'admin') {
       toast.error('Solo los administradores pueden crear usuarios');
       return;
     }

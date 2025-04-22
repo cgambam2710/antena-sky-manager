@@ -67,9 +67,9 @@ export function useAuth() {
     enabled: !!user?.id,
   });
 
-  const signIn = async (username: string, password: string) => {
+  const signIn = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({
-      email: `${username}@temp.com`,
+      email,
       password,
     });
 
@@ -80,14 +80,11 @@ export function useAuth() {
   };
 
   const createUser = async (userData: {
-    username: string;
-    password: string;
     email: string;
+    password: string;
     firstName: string;
     lastName: string;
   }) => {
-    // Here was the error: profile?.role === 'admin' is comparing a string ('admin') with profile?.role which is optional
-    // Fixed by checking if profile exists first, and then if its role is 'admin'
     if (!profile || profile.role !== 'admin') {
       toast.error('Solo los administradores pueden crear usuarios');
       return;
@@ -98,7 +95,8 @@ export function useAuth() {
       password: userData.password,
       options: {
         data: {
-          username: userData.username,
+          first_name: userData.firstName,
+          last_name: userData.lastName,
           created_by: user?.id,
         },
       },

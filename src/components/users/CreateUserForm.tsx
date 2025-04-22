@@ -10,9 +10,8 @@ export function CreateUserForm() {
   const { createUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
     email: '',
+    password: '',
     firstName: '',
     lastName: '',
   });
@@ -23,9 +22,8 @@ export function CreateUserForm() {
     try {
       await createUser(formData);
       setFormData({
-        username: '',
-        password: '',
         email: '',
+        password: '',
         firstName: '',
         lastName: '',
       });
@@ -51,11 +49,12 @@ export function CreateUserForm() {
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="username">Usuario</Label>
+            <Label htmlFor="email">Correo Electrónico</Label>
             <Input
-              id="username"
-              name="username"
-              value={formData.username}
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
               onChange={handleChange}
               required
             />
@@ -67,17 +66,6 @@ export function CreateUserForm() {
               name="password"
               type="password"
               value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="email">Correo Electrónico</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              value={formData.email}
               onChange={handleChange}
               required
             />

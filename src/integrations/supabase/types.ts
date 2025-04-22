@@ -72,21 +72,6 @@ export type Database = {
         }
         Relationships: []
       }
-      Cliente: {
-        Row: {
-          created_at: string
-          id: number
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-        }
-        Update: {
-          created_at?: string
-          id?: number
-        }
-        Relationships: []
-      }
       maintenance_logs: {
         Row: {
           antenna_id: string

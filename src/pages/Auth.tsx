@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/use-auth';
@@ -10,11 +9,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 export default function Auth() {
   const navigate = useNavigate();
   const { signIn, session } = useAuth();
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Redirect to dashboard if already authenticated
   useEffect(() => {
     if (session) {
       navigate('/');
@@ -25,7 +23,7 @@ export default function Auth() {
     e.preventDefault();
     setLoading(true);
     try {
-      await signIn(email, password);
+      await signIn(username, password);
       navigate('/');
     } catch (error) {
       console.error(error);
@@ -34,11 +32,9 @@ export default function Auth() {
     }
   };
 
-  // Check for other tabs with active sessions
   useEffect(() => {
     const channel = new BroadcastChannel('auth_channel');
     
-    // Listen for logout events from other tabs
     channel.onmessage = (event) => {
       if (event.data === 'LOGOUT') {
         navigate('/auth');
@@ -59,13 +55,13 @@ export default function Auth() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Correo Electrónico</Label>
+              <Label htmlFor="username">Usuario</Label>
               <Input
-                id="email"
-                type="email"
-                placeholder="correo@ejemplo.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="username"
+                type="text"
+                placeholder="usuario"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </div>

@@ -8,9 +8,13 @@ import { toast } from 'sonner';
 export interface UserProfile {
   id: string;
   username: string;
+  email: string | null;
+  first_name: string | null;
+  last_name: string | null;
   role: 'admin' | 'user';
   created_at: string;
   updated_at: string;
+  created_by: string | null;
 }
 
 export function useAuth() {
@@ -63,9 +67,9 @@ export function useAuth() {
     enabled: !!user?.id,
   });
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (username: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({
-      email,
+      email: `${username}@temp.com`,
       password,
     });
 
@@ -75,19 +79,31 @@ export function useAuth() {
     }
   };
 
-  const signUp = async (email: string, password: string, username: string) => {
+  const createUser = async (userData: {
+    username: string;
+    password: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  }) => {
+    if (!profile?.role === 'admin') {
+      toast.error('Solo los administradores pueden crear usuarios');
+      return;
+    }
+
     const { error } = await supabase.auth.signUp({
-      email,
-      password,
+      email: userData.email,
+      password: userData.password,
       options: {
         data: {
-          username,
+          username: userData.username,
+          created_by: user?.id,
         },
       },
     });
 
     if (error) {
-      toast.error('Error al registrarse: ' + error.message);
+      toast.error('Error al crear usuario: ' + error.message);
       throw error;
     }
 
@@ -108,7 +124,7 @@ export function useAuth() {
     profile,
     isAdmin: profile?.role === 'admin',
     signIn,
-    signUp,
+    createUser,
     signOut,
   };
 }

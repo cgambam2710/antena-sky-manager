@@ -34,6 +34,22 @@ export default function Auth() {
     }
   };
 
+  // Check for other tabs with active sessions
+  useEffect(() => {
+    const channel = new BroadcastChannel('auth_channel');
+    
+    // Listen for logout events from other tabs
+    channel.onmessage = (event) => {
+      if (event.data === 'LOGOUT') {
+        navigate('/auth');
+      }
+    };
+
+    return () => {
+      channel.close();
+    };
+  }, [navigate]);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">

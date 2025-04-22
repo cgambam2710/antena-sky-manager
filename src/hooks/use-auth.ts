@@ -21,8 +21,16 @@ export function useAuth() {
     // Set up auth state listener first
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
+        if (event === 'SIGNED_OUT') {
+          // Clear session data
+          setSession(null);
+          setUser(null);
+          // Clear any cached data
+          window.location.reload();
+        } else {
+          setSession(session);
+          setUser(session?.user ?? null);
+        }
       }
     );
 

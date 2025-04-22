@@ -1,13 +1,20 @@
 
-import { Bell, Search } from "lucide-react";
+import { Bell, Search, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/hooks/use-auth";
 
 interface NavbarProps {
   title: string;
 }
 
 export function Navbar({ title }: NavbarProps) {
+  const { signOut } = useAuth();
+
+  const handleLogout = async () => {
+    await signOut();
+  };
+
   return (
     <header className="border-b py-3 px-6">
       <div className="flex items-center justify-between">
@@ -28,6 +35,10 @@ export function Navbar({ title }: NavbarProps) {
           <Button variant="ghost" size="icon" className="relative">
             <Bell size={20} />
             <span className="absolute top-1 right-1 w-2 h-2 bg-antenna-accent-warning rounded-full"></span>
+          </Button>
+
+          <Button variant="ghost" size="icon" onClick={handleLogout}>
+            <LogOut size={20} />
           </Button>
         </div>
       </div>
